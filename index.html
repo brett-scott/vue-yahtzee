@@ -17,34 +17,15 @@
         <span>How to Play:</span>
         <div id="game">
             <p>{{ message }}</p>
-            <h3>Score: {{ score }} (Rolls Remaining: {{ rollsRemain }}</h3>
+            <h3>Score: {{ score }} (Rolls Remaining: {{ rollsRemain }})</h3>
             <div class="row">
                 <div class="col-md">
-                    <score-box title="test-title"></score-box>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-ones" @click=submitScore(1)>1's</button>
-                        <input type="text" id="input-ones" class="form-control" placeholder="" disabled>
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-twos" @click=submitScore(2)>2's</button>
-                        <input type="text" id="input-twos" class="form-control" placeholder="">
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-threes" @click=submitScore(3)>3's</button>
-                        <input type="text" id="input-threes" class="form-control" placeholder="">
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-ones">4's</button>
-                        <input type="text" class="form-control" placeholder="">
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-ones">5's</button>
-                        <input type="text" class="form-control" placeholder="">
-                    </div>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" id="button-ones">6's</button>
-                        <input type="text" class="form-control" placeholder="">
-                    </div>
+                    <score-box title="1's" identity=1></score-box>
+                    <score-box title="2's" identity=2></score-box>
+                    <score-box title="3's" identity=3></score-box>
+                    <score-box title="4's" identity=4></score-box>
+                    <score-box title="5's" identity=5></score-box>
+                    <score-box title="6's" identity=6></score-box>
                 </div>
                 <div class="col-md">
                     <div class="input-group mb-3">

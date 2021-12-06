@@ -5,7 +5,7 @@ const app = Vue.createApp({
             dice: [
                 {id: 1, value: 1, hold: false},
                 {id: 2, value: 2, hold: false},
-                {id: 3, value: 3, hold: true},
+                {id: 3, value: 3, hold: false},
                 {id: 4, value: 4, hold: false},
                 {id: 5, value: 5, hold: false},
             ],
@@ -32,56 +32,41 @@ const app = Vue.createApp({
             console.log(dice)
             dice.hold = !dice.hold
         },
-        submitScore(type) {
-            switch(type){
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    {
-                        let tempScore = 0;
-                        let num = parseInt(type);
-                        for(let i = 0; i < this.dice.length; i++){
-                            if(this.dice[i].value === num) tempScore += num;
-                        }
-                        this.score += tempScore;
-                        this.rollsRemain = 3;
-                        break;
-                    }
-                default:
-                    {
-                        console.log(`Invalid Case: ${type}`);
-                    }
+        newScore(tempScore){
+            this.score = tempScore
+            this.rollsRemain = 3;
+
+            //  Reset all the hold values
+            for(let i = 0; i < this.dice.length; i++){
+                this.dice[i].hold = false
             }
         }
     }
 });
 
 app.component('score-box', {
-    props: ['title', 'yahtzee-score'],
-    emits: ['yahtzee-score'],
+    //  title: The text displayed on the button
+    //  identity: What value the button should look out for
+    props: ['title', 'identity'],
     data() {
         return {
-            value: 0
+            value: 0,           // Holds the value to be displayed in the input
+            submitted: false    //  True = has been used by the player, False = hasn't been used
         }
     },
     methods: {
-        submitScore2(type){
+        submitScore(type){
             const dice = this.$parent.dice
             let score = this.$parent.score
-            let rollsRemain = this.$parent.rollsRemain
 
             console.log('submit2')
-            console.log(this.parentData)
             switch(type){
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                case "6":
                     {
                         let tempScore = 0;
                         let num = parseInt(type);
@@ -89,8 +74,8 @@ app.component('score-box', {
                             if(dice[i].value === num) tempScore += num;
                         }
                         score += tempScore;
-                        console.log(score)
-                        rollsRemain = 3;
+                        this.value = tempScore
+                        this.submitted = true;
                         break;
                     }
                 default:
@@ -98,14 +83,14 @@ app.component('score-box', {
                         console.log(`Invalid Case: ${type}`);
                     }
             }
+            //  Update overall score
+            this.$parent.newScore(score);
         }
     },
-    // <button class="btn btn-outline-secondary" type="button" id="button-twos" @click=this.$parent.submitScore(2)>{{ title }}</button>
-    // <button class="btn btn-outline-secondary" type="button" id="button-twos" @click=submitScore2(2)>{{ title }}</button>
     template: `
     <div class="input-group mb-3">
-        <button class="btn btn-outline-secondary" type="button" id="button-twos" @click="yahtzee-score(2)">{{ title }}</button>
-        <input type="text" id="input-twos" class="form-control" value="0" disabled>
+    <button class="btn btn-outline-secondary" :class="{ disabled: submitted }" type="button" id="button-twos" @click=submitScore(identity)>{{ title }}</button>
+        <input type="text" id="input-twos" class="form-control" :value=this.value disabled>
     </div>
     `
 })
