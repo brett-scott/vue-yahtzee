@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Yahtzee</title>
+    <!-- Load Bootstrap -->
+    <link href="bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <!-- Load VueJS -->
+    <script src="vue.global.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Vue Yahtzee</h1>
+        <span>How to Play:</span>
+        <div id="game">
+            <p>{{ message }}</p>
+            <h3>Score: {{ score }} (Rolls Remaining: {{ rollsRemain }}</h3>
+            <div class="row">
+                <div class="col-md">
+                    <score-box title="test-title"></score-box>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones" @click=submitScore(1)>1's</button>
+                        <input type="text" id="input-ones" class="form-control" placeholder="" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-twos" @click=submitScore(2)>2's</button>
+                        <input type="text" id="input-twos" class="form-control" placeholder="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-threes" @click=submitScore(3)>3's</button>
+                        <input type="text" id="input-threes" class="form-control" placeholder="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">4's</button>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">5's</button>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">6's</button>
+                        <input type="text" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">x3</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">x4</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">Full House</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">Small</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">Large</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">Yahtzee!</button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="">
+                        <button class="btn btn-outline-secondary" type="button" id="button-ones">Random</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-evenly">
+                <div id="dice" class="col-2 text-center" v-for="item in dice">
+                    {{ item.value }}
+                    <button class="btn" :class="[item.hold ? `btn-success` : `btn-danger` ]" @click=holdDice(item.id)>{{ item.hold ? "Release" : "Hold" }}</button>
+                </div>
+            </div>
+            <hr>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success" @click="rollDice" :class="{ disabled: rollsRemain === 0 }">Roll Dice</button>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script src="app.js"></script>
+</html>
