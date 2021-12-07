@@ -55,11 +55,35 @@ app.component('score-box', {
         }
     },
     methods: {
+        //  To compare for 3 or 4 of a kind
+        threeOrFours(type){
+            const dice = this.$parent.dice
+
+            let compArray = [];
+            let tempScore = 0;
+            
+
+            //  Get all the dice values, and get the total duplicates
+            for(let i = 0; i < dice.length; i++){
+                compArray[dice[i].value] = (compArray[dice[i].value] || 0) + 1
+                tempScore += dice[i].value
+            }
+
+            //  Check if any values came up 3 or more times
+            const aboveLimit = compArray.find(num => num >= parseInt(type))
+
+            //  Set score to 0 as it wasn't above the limit
+            if(!aboveLimit) {
+                tempScore = 0;
+            }
+
+            return tempScore;
+        },
         submitScore(type){
             const dice = this.$parent.dice
             let score = this.$parent.score
+            let tempScore = 0;
 
-            console.log('submit2')
             switch(type){
                 case "1":
                 case "2":
@@ -68,7 +92,6 @@ app.component('score-box', {
                 case "5":
                 case "6":
                     {
-                        let tempScore = 0;
                         let num = parseInt(type);
                         for(let i = 0; i < dice.length; i++){
                             if(dice[i].value === num) tempScore += num;
@@ -76,6 +99,26 @@ app.component('score-box', {
                         score += tempScore;
                         this.value = tempScore
                         this.submitted = true;
+                        break;
+                    }
+                case "3x":
+                    {
+                        const res = this.threeOrFours(3);
+
+                        score += res;
+                        this.value = res
+                        this.submitted = true;
+
+                        break;
+                    }
+                case "4x":
+                    {
+                        const res = this.threeOrFours(4);
+
+                        score += res;
+                        this.value = res;
+                        this.submitted = true;
+
                         break;
                     }
                 default:
