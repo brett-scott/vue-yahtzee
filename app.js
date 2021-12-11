@@ -16,7 +16,6 @@ const app = Vue.createApp({
     },
     methods: {
         rollDice() {
-            console.log("Rolling Dice")
             for(let i = 0; i < this.dice.length; i++){
                 //  If we're holding the dice, don't update the value
                 if(this.dice[i].hold === false){
@@ -29,7 +28,6 @@ const app = Vue.createApp({
         holdDice(id) {
             const dice = this.dice[id - 1];
 
-            console.log(dice)
             dice.hold = !dice.hold
         },
         newScore(tempScore){
@@ -55,8 +53,8 @@ app.component('score-box', {
         }
     },
     methods: {
-        //  To compare for 3 or 4 of a kind
-        threeOrFours(type){
+        //  To compare for 3 or 4 of a kind and Yahtzee
+        straightCheck(type){
             const dice = this.$parent.dice
 
             let compArray = [];
@@ -103,7 +101,7 @@ app.component('score-box', {
                     }
                 case "3x":
                     {
-                        const res = this.threeOrFours(3);
+                        const res = this.straightCheck(3);
 
                         score += res;
                         this.value = res
@@ -113,10 +111,39 @@ app.component('score-box', {
                     }
                 case "4x":
                     {
-                        const res = this.threeOrFours(4);
+                        const res = this.straightCheck(4);
 
                         score += res;
                         this.value = res;
+                        this.submitted = true;
+
+                        break;
+                    }
+                case "fh":  //  Full House
+                    {
+
+                        break;
+                    }
+                case "ss":  //  Small Straight
+                    {
+                        break;
+                    }
+                case "ls":  //  Large Straight
+                    {
+                        break;
+                    }
+                case "yahtzee":
+                    {
+                        const res = this.straightCheck(5);
+
+                        if(res != 0){  //  A score existing means a Yahtzee was found
+                            score += 50;
+                            this.value = 50;
+                        } else {
+                            score += res;
+                            this.value = res;
+                        }
+                        
                         this.submitted = true;
 
                         break;
