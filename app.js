@@ -54,7 +54,7 @@ app.component('score-box', {
     },
     methods: {
         //  To compare for 3 or 4 of a kind and Yahtzee
-        straightCheck(type){
+        duplicateCheck(type){
             const dice = this.$parent.dice
 
             let compArray = [];
@@ -101,7 +101,7 @@ app.component('score-box', {
                     }
                 case "3x":
                     {
-                        const res = this.straightCheck(3);
+                        const res = this.duplicateCheck(3);
 
                         score += res;
                         this.value = res
@@ -111,7 +111,7 @@ app.component('score-box', {
                     }
                 case "4x":
                     {
-                        const res = this.straightCheck(4);
+                        const res = this.duplicateCheck(4);
 
                         score += res;
                         this.value = res;
@@ -134,7 +134,7 @@ app.component('score-box', {
                     }
                 case "yahtzee":
                     {
-                        const res = this.straightCheck(5);
+                        const res = this.duplicateCheck(5);
 
                         if(res != 0){  //  A score existing means a Yahtzee was found
                             score += 50;
