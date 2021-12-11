@@ -121,6 +121,23 @@ app.component('score-box', {
                     }
                 case "fh":  //  Full House
                     {
+                        let compArray = [];
+                        
+                        //  Store number of duplicates in an array
+                        for(let i = 0; i < dice.length; i++){
+                            compArray[dice[i].value] = (compArray[dice[i].value] || 0) + 1
+                        }
+
+                        //  Check if 2 of the same value and 3 of the same value exist
+                        if(compArray.includes(2) && compArray.includes(3)){
+                            score += 25;
+                            this.value = 25;
+                        } else {
+                            score += 0;
+                            this.value = 0;
+                        }
+
+                        this.submitted = true;
 
                         break;
                     }
