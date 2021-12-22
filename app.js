@@ -226,6 +226,18 @@ app.component('score-box', {
 
                         break;
                     }
+                case "random":
+                    {
+                        //  Add every dice value together
+                        for(let i = 0; i < dice.length; i++){
+                            tempScore += dice[i].value;
+                        }
+
+                        score += tempScore;
+                        this.value = tempScore
+                        this.submitted = true;
+                        break;
+                    }
                 default:
                     {
                         console.log(`Invalid Case: ${type}`);
