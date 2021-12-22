@@ -77,6 +77,43 @@ app.component('score-box', {
 
             return tempScore;
         },
+        straightCheck(len){
+            const dice = this.$parent.dice;
+
+            let compArray = [];
+            //  Starts at one to count the number being compared
+            let straightCount = 1;
+
+            //  Get all dice values
+            for(let i = 0; i < dice.length; i++){
+                compArray.push(dice[i].value);
+            }
+
+            //  Sort the numbers in incremental order
+            compArray.sort(function(a, b) {
+                return a - b;
+            });
+
+            //  Remove duplicate numbers, easier to count
+            uniqueCompArray = compArray.filter(function(elem, pos) {
+                return compArray.indexOf(elem) == pos;
+            })
+
+            //  Loop through numbers
+            for(let i = 0; i < compArray.length - 1; i++){
+                let num = compArray[i];
+
+                //  Check if current number + 1 is equal to the next number
+                if(num + 1 === compArray[i + 1]){
+                    straightCount++
+                }
+            }
+
+            //  Fix for straight checking 4 when there's 5
+            if(len === 4 && straightCount === 5) straightCount = 4
+
+            return straightCount === len;
+        },
         submitScore(type){
             const dice = this.$parent.dice
             let score = this.$parent.score
@@ -143,10 +180,34 @@ app.component('score-box', {
                     }
                 case "ss":  //  Small Straight
                     {
+                        const res = this.straightCheck(4);
+                        const points = 30;
+
+                        if(res){
+                            score += points;
+                            this.value = points;
+                        } else {
+                            score += 0;
+                            this.value = 0;
+                        }
+
+                        this.submitted = true;
                         break;
                     }
                 case "ls":  //  Large Straight
                     {
+                        const res = this.straightCheck(5);
+                        const points = 40;
+
+                        if(res){
+                            score += points;
+                            this.value = points;
+                        } else {
+                            score += 0;
+                            this.value = 0;
+                        }
+
+                        this.submitted = true;
                         break;
                     }
                 case "yahtzee":
