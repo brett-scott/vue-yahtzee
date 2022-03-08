@@ -3,11 +3,11 @@ const app = Vue.createApp({
         return {
             //  Value is the value of the dice, hold stops the dice being rolled
             dice: [
-                {id: 1, value: 1, hold: false},
-                {id: 2, value: 2, hold: false},
-                {id: 3, value: 3, hold: false},
-                {id: 4, value: 4, hold: false},
-                {id: 5, value: 5, hold: false},
+                {id: 1, value: null, hold: false},
+                {id: 2, value: null, hold: false},
+                {id: 3, value: null, hold: false},
+                {id: 4, value: null, hold: false},
+                {id: 5, value: null, hold: false},
             ],
             message: 'Loaded with VueJS',
             score: 0,
@@ -37,6 +37,14 @@ const app = Vue.createApp({
             //  Reset all the hold values
             for(let i = 0; i < this.dice.length; i++){
                 this.dice[i].hold = false
+            }
+        },
+        //  Used to unhold all dice and reroll every one
+        resetDice(){
+            for(let i = 0; i < this.dice.length; i++){
+                //  Reset dice value and take off hold statuses
+                this.dice[i].hold = false;
+                this.dice[i].value = null;
             }
         }
     }
@@ -243,6 +251,8 @@ app.component('score-box', {
                         console.log(`Invalid Case: ${type}`);
                     }
             }
+
+            this.$parent.resetDice();
             //  Update overall score
             this.$parent.newScore(score);
         }
